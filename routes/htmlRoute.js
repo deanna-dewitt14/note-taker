@@ -1,11 +1,9 @@
-const path = require("path");
-
 module.exports = function (app) {
     app.get("/notes", function (req, res) {
-        res.sendFile("../develop/public/notes.html");
+        res.sendFile("/Users/Deanna MacPherson/projects/note-taker/develop/public/notes.html");
     });
 
     app.get("*", function (req, res) {
-        res.sendFile("../develop/public/index.html");
+        res.sendFile("/Users/Deanna MacPherson/projects/note-taker/develop/public/index.html");
     });
 };

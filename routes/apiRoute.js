@@ -1,12 +1,12 @@
 const fs = require("fs");
 const uuid = require("uuid");
-const db = require('../develop/db/db.json');
+//const db = require('../db./db.json');
 
 module.exports = function (app) {
     app.get("/api/notes", function (req, res) {
-        fs.readFile(db, (err, data) => {
-        if (err) throw err;
-        res.json(JSON.parse(data));
+        fs.readFile("/Users/Deanna MacPherson/projects/note-taker/develop/db/db.json", (err, data) => {
+            if (err) throw err;
+            res.json(JSON.parse(data));
         });
     });
 
@@ -18,11 +18,11 @@ module.exports = function (app) {
             id: uuid.v4(),
         };
 
-        fs.readFile(db, (err, data) => {
+        fs.readFile(__dirname + "develop/db/db", (err, data) => {
             if (err) throw err;
             allNotes = JSON.parse(data);
             allNotes.push(newNote);
-            fs.writeFile(db, JSON.stringify(allNotes), "utf-8", (err) => {
+            fs.writeFile(__dirname + "develop/db/db", JSON.stringify(allNotes), "utf-8", (err) => {
                 if (err) throw err;
                 res.end();
             });
@@ -31,11 +31,11 @@ module.exports = function (app) {
 
     app.delete("/api/notes/:id", (req, res) => {
         let noteId = req.params.id;
-        fs.readFile(db, (err, data) => {
+        fs.readFile(__dirname + "develop/db/db", (err, data) => {
             if (err) throw err;
             let notesDB = JSON.parse(data);
             const filteredNotes = notesDB.filter(values => values.id != noteId);
-            fs.writeFile(db, JSON.stringify(filteredNotes), "utf-8", err => {
+            fs.writeFile(__dirname + "develop/db/db", JSON.stringify(filteredNotes), "utf-8", err => {
                 if (err) throw err;
                 res.end();
             });
